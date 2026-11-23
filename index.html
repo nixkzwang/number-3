@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>男朋友自动贩卖机 💗</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+:root {
+  --blue:#203b82;
+  --sky:#b9dcfa;
+  --pink:#ffb9d2;
+  --darkpink:#e77ca8;
+  --cream:#fffafc;
+}
+* {box-sizing:border-box}
+body {
+  margin:0; min-height:100vh; overflow-x:hidden;
+  font-family:'Nunito','Noto Sans SC',sans-serif;
+  color:var(--blue);
+  background:linear-gradient(180deg,#8ec8f2,#c8e4fb 48%,#fceaf3);
+}
+button {font:inherit;cursor:pointer}
+.sky {
+  position:fixed;inset:0;overflow:hidden;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 20%,#fff8 0,transparent 35%),
+             radial-gradient(ellipse at 85% 65%,#fff7 0,transparent 32%);
+}
+.cloud {
+  position:absolute;width:160px;height:45px;border-radius:40px;
+  background:#ffffff9c;
+  box-shadow:30px -20px 0 2px #ffffff9c,70px -10px 0 5px #ffffff9c;
+  animation:cloudMove 40s linear infinite;
+}
+.cloud:nth-child(1){top:18%;left:-230px}
+.cloud:nth-child(2){top:67%;left:-250px;animation-duration:52s;animation-delay:-20s;transform:scale(.8)}
+.cloud:nth-child(3){top:40%;left:-200px;animation-duration:48s;animation-delay:-8s;transform:scale(.65)}
+@keyframes cloudMove {to{translate:calc(100vw + 500px) 0}}
+.wrap {
+  position:relative;z-index:1;width:min(100%,780px);
+  margin:auto;padding:25px 18px 55px;
+}
+header {
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;margin-bottom:20px;
+}
+.tag {
+  background:#ffffff80;border:1px solid #fff;border-radius:30px;
+  padding:9px 14px;font-size:12px;font-weight:900;
+  backdrop-filter:blur(8px);
+}
+.hero{text-align:center;padding:24px 0 18px}
+.eyebrow {font-size:11px;letter-spacing:3px;font-weight:900;color:#6384b5}
+h1 {font-size:clamp(30px,7vw,49px);line-height:1.25;margin:12px 0;color:var(--blue)}
+.subtitle {font-size:14px;line-height:1.9;color:#607eac}
+.machine-area {display:flex;justify-content:center;margin:22px auto 20px}
+.machine {
+  width:min(100%,370px);padding:17px;
+  border-radius:30px 30px 24px 24px;
+  background:linear-gradient(145deg,#fff,#f8dce9);
+  border:4px solid #fff;
+  box-shadow:0 16px 35px #34558a30,inset 0 0 0 2px #f4c5d9;
+  position:relative;
+}
+.machine-top {
+  border-radius:18px 18px 10px 10px;padding:12px;
+  background:linear-gradient(135deg,#f9bcd4,#fce4ef);
+  text-align:center;font-weight:900;font-size:17px;
+  color:#8c4770;border:2px solid white;
+}
+.machine-window {
+  margin-top:13px;min-height:195px;border-radius:17px;
+  background:linear-gradient(145deg,#d9efff,#b9dafa);
+  border:5px solid #fff;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.machine-window::before {
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 20%,#fff9,transparent 35%);
+}
+.prizes {
+  position:relative;display:grid;grid-template-columns:repeat(3,1fr);
+  gap:13px;padding:20px;width:100%;
+}
+.prize {
+  min-height:57px;border-radius:15px;background:#ffffffb8;
+  display:grid;place-items:center;font-size:29px;
+  box-shadow:0 4px 10px #5175a522;
+  animation:bob 2.6s ease-in-out infinite;
+}
+.prize:nth-child(2n){animation-delay:-.8s}
+.prize:nth-child(3n){animation-delay:-1.4s}
+@keyframes bob {50%{transform:translateY(-5px)}}
+.machine-controls {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:15px 4px 3px;
+}
+.display {
+  flex:1;background:#203b82;color:#bff6e4;
+  padding:10px 12px;border-radius:9px;
+  font-size:11px;font-weight:800;text-align:center;
+  box-shadow:inset 0 2px 7px #0005;
+}
+.dispense {
+  width:58px;height:58px;border:4px solid #fff;border-radius:50%;
+  background:linear-gradient(145deg,#ff9cbe,#e96c9c);
+  color:white;font-size:23px;font-weight:900;
+  box-shadow:0 5px 0 #c95787,0 7px 14px #9d477333;
+  transition:.15s;
+}
+.dispense:active {transform:translateY(4px);box-shadow:0 1px 0 #c95787}
+.dispense:disabled {opacity:.45;cursor:not-allowed}
+.slot {
+  width:72%;height:17px;background:#29416f;
+  border-radius:20px;margin:13px auto 0;
+  box-shadow:inset 0 3px 6px #0008;
+}
+.primary {
+  border:0;border-radius:30px;padding:14px 23px;
+  background:linear-gradient(135deg,#f58eb6,#e779a6);
+  color:white;font-weight:900;font-size:15px;
+  box-shadow:0 6px 0 #c85e8e,0 10px 20px #d66d9c35;
+  transition:.2s;
+}
+.primary:hover {transform:translateY(-2px)}
+.primary:active {transform:translateY(3px);box-shadow:0 2px 0 #c85e8e}
+.secondary {
+  border:1px solid #d5e3f5;border-radius:25px;padding:10px 17px;
+  background:white;color:var(--blue);font-weight:800;
+}
+.info {text-align:center;color:#607eac;font-size:12px;line-height:1.8;margin:15px auto}
+.panel {
+  background:#ffffffa8;border:1px solid white;
+  border-radius:24px;padding:20px;margin-top:24px;
+  box-shadow:0 8px 24px #5275a21c;backdrop-filter:blur(9px);
+}
+.panel h2 {font-size:19px;margin:0 0 6px}
+.panel-intro {font-size:12px;color:#7189ad;margin:0 0 15px}
+.counter {font-weight:900;color:#df6f9d}
+.collection {
+  display:grid;grid-template-columns:repeat(2,1fr);gap:9px;
+}
+.collection-item {
+  border-radius:15px;background:#ffffffb5;border:1px solid #fff;
+  padding:12px;display:flex;align-items:center;gap:10px;
+  font-size:12px;color:#49648e;
+}
+.collection-item .emoji {font-size:25px}
+.collection-item.claimed {background:#ffeaf2;border-color:#f6c4d8}
+.collection-item.unclaimed {opacity:.58}
+.collection-item strong {display:block;color:#304e83;margin-bottom:3px}
+.modal {
+  position:fixed;inset:0;z-index:5;display:none;
+  align-items:center;justify-content:center;padding:16px;
+  background:#19356865;backdrop-filter:blur(8px);
+}
+.modal.show {display:flex}
+.ticket {
+  width:min(100%,410px);background:linear-gradient(145deg,#fff,#fff0f6);
+  border-radius:24px;padding:26px 22px;text-align:center;
+  box-shadow:0 20px 70px #152d5b66;
+  animation:ticketIn .5s cubic-bezier(.2,.8,.2,1);
+  position:relative;overflow:hidden;
+}
+@keyframes ticketIn {from{opacity:0;transform:translateY(40px) scale(.85)}to{opacity:1;transform:none}}
+.ticket::before,.ticket::after {
+  content:"";position:absolute;width:27px;height:27px;border-radius:50%;
+  background:#b9dcfa;top:58%;transform:translateY(-50%);
+}
+.ticket::before{left:-14px}.ticket::after{right:-14px}
+.ticket-top {font-size:11px;letter-spacing:3px;color:#a66a8c;font-weight:900}
+.ticket-emoji {font-size:65px;margin:14px 0 4px}
+.ticket h2 {font-size:26px;color:var(--blue);margin:5px 0}
+.ticket-desc {font-size:14px;line-height:1.8;color:#657da5;margin:12px 0}
+.ticket-code {
+  margin:18px 0;padding:11px;border-top:1px dashed #e7a9c5;
+  border-bottom:1px dashed #e7a9c5;color:#c66c98;
+  font-weight:900;letter-spacing:2px;font-size:13px;
+}
+.stamp {
+  display:inline-block;border:2px solid #e47ca7;color:#e47ca7;
+  padding:5px 13px;border-radius:7px;transform:rotate(-7deg);
+  font-weight:900;letter-spacing:2px;font-size:12px;margin:8px;
+}
+.claimed-message {color:#d66c9c;font-weight:900;font-size:14px;margin:12px}
+.modal-actions {display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:17px}
+.empty {text-align:center;padding:12px;color:#7e94b5;font-size:13px}
+footer{text-align:center;font-size:11px;color:#7189ad;margin-top:26px}
+@media(max-width:450px){
+  .wrap{padding:17px 13px 40px}
+  .machine{padding:12px}
+  .machine-window{min-height:170px}
+  .collection{grid-template-columns:1fr}
+  .hero{padding-top:15px}
+}
+</style>
+</head>
+<body>
+<div class="sky">
+  <div class="cloud"></div><div class="cloud"></div><div class="cloud"></div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="tag">♡ FOR MY BABY</div>
+    <div class="tag">BOYFRIEND EDITION ✦</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">A LITTLE MACHINE FULL OF LOVE</div>
+    <h1>男朋友自动贩卖机 💗</h1>
+    <p class="subtitle">
+      欢迎光临宝宝专属贩卖机！<br>
+      投入一点点期待，领取一份男朋友的爱。
+    </p>
+  </section>
+
+  <div class="machine-area">
+    <div class="machine">
+      <div class="machine-top">♡ LOVE VENDING MACHINE ♡</div>
+      <div class="machine-window">
+        <div class="prizes">
+          <div class="prize">💗</div><div class="prize">🧋</div><div class="prize">🧸</div>
+          <div class="prize">🎟️</div><div class="prize">💌</div><div class="prize">🌷</div>
+        </div>
+      </div>
+      <div class="machine-controls">
+        <div class="display" id="machineDisplay">INSERT LOVE HERE ♡</div>
+        <button class="dispense" id="dispenseBtn" onclick="dispense()">↓</button>
+      </div>
+      <div class="slot"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center">
+    <button class="primary" id="mainBtn" onclick="dispense()">🎁 抽取我的专属 Voucher</button>
+    <p class="info" id="hint">每次抽取都会随机出现一张惊喜券。<br>领取后，这张券就会永久加入你的收藏！</p>
+  </div>
+
+  <section class="panel">
+    <h2>🎀 我的 Voucher 收藏夹</h2>
+    <p class="panel-intro">
+      已领取 <span class="counter" id="claimedCount">0</span> / 10 张
+      · 每张优惠券只能领取一次
+    </p>
+    <div class="collection" id="collection"></div>
+  </section>
+
+  <footer>Made with love by your very own boyfriend ♡</footer>
+</div>
+
+<div class="modal" id="voucherModal">
+  <div class="ticket">
+    <div class="ticket-top">A SPECIAL GIFT FOR YOU</div>
+    <div class="ticket-emoji" id="ticketEmoji">💗</div>
+    <h2 id="ticketTitle">专属 Voucher</h2>
+    <p class="ticket-desc" id="ticketDesc"></p>
+    <div class="ticket-code" id="ticketCode"></div>
+    <div id="ticketStatus"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+
+<script>
+const vouchers = [
+  {
+    id:"V01", emoji:"📞", title:"深夜语音券",
+    desc:"一次专属语音通话！想聊多久就聊多久。无论开心还是不开心，我都愿意听你说。"
+  },
+  {
+    id:"V02", emoji:"🫂", title:"超级抱抱券",
+    desc:"兑换一个超大抱抱！附赠无限续抱，不限时间，直到你不想抱为止。"
+  },
+  {
+    id:"V03", emoji:"🌐", title:"专属网站券",
+    desc:"男朋友亲手为你制作一个全新小网站！主题由你决定，我负责把它变成现实。"
+  },
+  {
+    id:"V04", emoji:"🧋", title:"免费 BBT 券",
+    desc:"免费请你喝一杯珍珠奶茶！口味你选，男朋友买单。"
+  },
+  {
+    id:"V05", emoji:"🎬", title:"电影约会券",
+    desc:"电影你选，零食我买！今天陪你看你想看的电影。"
+  },
+  {
+    id:"V06", emoji:"🐻", title:"人肉小熊券",
+    desc:"想抱就抱，想靠就靠！今天我是你专属的人肉抱枕。"
+  },
+  {
+    id:"V07", emoji:"🍳", title:"男朋友下厨券",
+    desc:"想吃什么告诉我，我会认真学着做给你吃。第一次可能不完美，但一定有爱！"
+  },
+  {
+    id:"V08", emoji:"💆", title:"专属按摩券",
+    desc:"一次免费的肩膀或手部按摩。让你放松一下，今天什么都不用操心。"
+  },
+  {
+    id:"V09", emoji:"🚗", title:"专属司机券",
+    desc:"一次专属接送服务！目的地你决定，男朋友负责接送。"
+  },
+  {
+    id:"V10", emoji:"👑", title:"公主一日券",
+    desc:"今天你最大！约会、吃什么、去哪里，全听你的。公主请下指令！"
+  }
+];
+
+const STORAGE_KEY = "boyfriendVendingClaimed_v1";
+let claimed = loadClaimed();
+let currentVoucher = null;
+let dispensing = false;
+
+function loadClaimed() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(saved) ? saved.filter(id => vouchers.some(v => v.id === id)) : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveClaimed() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(claimed));
+}
+
+function remainingVouchers() {
+  return vouchers.filter(v => !claimed.includes(v.id));
+}
+
+function renderCollection() {
+  const box = document.getElementById("collection");
+  box.innerHTML = "";
+  vouchers.forEach(v => {
+    const isClaimed = claimed.includes(v.id);
+    const item = document.createElement("div");
+    item.className = "collection-item " + (isClaimed ? "claimed" : "unclaimed");
+    item.innerHTML = `
+      <span class="emoji">${v.emoji}</span>
+      <span><strong>${v.title}</strong>${isClaimed ? "已领取 ✓" : "等待领取 ···"}</span>
+    `;
+    box.appendChild(item);
+  });
+  document.getElementById("claimedCount").textContent = claimed.length;
+  if (claimed.length === vouchers.length) {
+    document.getElementById("machineDisplay").textContent = "ALL GIFTS CLAIMED ♡";
+    document.getElementById("hint").textContent = "宝宝，你已经收集全部 10 份爱啦！男朋友还有很多爱可以给你。";
+    document.getElementById("mainBtn").textContent = "💗 全部领取完毕";
+    document.getElementById("mainBtn").disabled = true;
+    document.getElementById("dispenseBtn").disabled = true;
+  }
+}
+
+function dispense() {
+  if (dispensing) return;
+  const available = remainingVouchers();
+  if (available.length === 0) {
+    renderCollection();
+    return;
+  }
+  dispensing = true;
+  document.getElementById("dispenseBtn").disabled = true;
+  document.getElementById("mainBtn").disabled = true;
+  document.getElementById("machineDisplay").textContent = "DISPENSING... ♡";
+  document.getElementById("hint").textContent = "咕噜咕噜……你的惊喜正在准备中！";
+
+  const btn = document.getElementById("dispenseBtn");
+  btn.style.transform = "rotate(180deg)";
+
+  let count = 0;
+  const roll = setInterval(() => {
+    const random = available[Math.floor(Math.random() * available.length)];
+    document.getElementById("machineDisplay").textContent = random.emoji + " " + random.title;
+    count++;
+    if (count >= 12) {
+      clearInterval(roll);
+      currentVoucher = available[Math.floor(Math.random() * available.length)];
+      setTimeout(() => {
+        btn.style.transform = "";
+        showVoucher(currentVoucher);
+        dispensing = false;
+        btn.disabled = false;
+        document.getElementById("mainBtn").disabled = false;
+      }, 350);
+    }
+  }, 110);
+}
+
+function showVoucher(v) {
+  document.getElementById("ticketEmoji").textContent = v.emoji;
+  document.getElementById("ticketTitle").textContent = v.title;
+  document.getElementById("ticketDesc").textContent = v.desc;
+  document.getElementById("ticketCode").textContent = "LOVE-" + v.id + " · ONE TIME ONLY";
+  document.getElementById("ticketStatus").innerHTML = "";
+  document.getElementById("modalActions").innerHTML = `
+    <button class="primary" onclick="claimVoucher()">💗 我要领取！</button>
+    <button class="secondary" onclick="closeVoucher()">下次再抽</button>
+  `;
+  document.getElementById("voucherModal").classList.add("show");
+}
+
+function claimVoucher() {
+  if (!currentVoucher) return;
+  if (claimed.includes(currentVoucher.id)) {
+    closeVoucher();
+    return;
+  }
+
+  claimed.push(currentVoucher.id);
+  saveClaimed();
+  renderCollection();
+
+  document.getElementById("ticketStatus").innerHTML =
+    '<div class="stamp">已成功领取 ✓</div><div class="claimed-message">宝宝成功兑换啦！💗</div>';
+  document.getElementById("modalActions").innerHTML =
+    '<button class="primary" onclick="closeVoucher()">收好我的礼物 ♡</button>';
+
+  document.getElementById("machineDisplay").textContent = "GIFT CLAIMED! ♡";
+  document.getElementById("hint").textContent = "恭喜宝宝领取成功！还可以继续抽取其他惊喜。";
+}
+
+function closeVoucher() {
+  document.getElementById("voucherModal").classList.remove("show");
+  currentVoucher = null;
+  const left = remainingVouchers().length;
+  if (left > 0) {
+    document.getElementById("machineDisplay").textContent = "READY FOR YOU ♡";
+    document.getElementById("hint").textContent =
+      `还有 ${left} 张惊喜券等着你。再按一次按钮，看看下一份礼物是什么！`;
+    document.getElementById("mainBtn").textContent = "🎁 再抽一张 Voucher";
+  }
+}
+
+renderCollection();
+</script>
+</body>
+</html>
